@@ -45,6 +45,9 @@ def create_journal_entries(report):
             expense_total += item.subtotal
 
         cost_center = frappe.db.get_value('Company', expense_report.company, 'cost_center')
+
+        if expense_report.get("cost_center"):
+            cost_center = expense_report.cost_center
         # Create the journal entries
         jv = frappe.new_doc('Journal Entry')
         jv.voucher_type = 'Journal Entry'
@@ -112,7 +115,8 @@ def create_journal_entries(report):
 
         # Change the workflow state of the Expense Report to Submitted
         doc = frappe.get_doc('Expense Report', report)
-        doc.workflow_state = 'Journals Created'
+        if doc.meta.has_field('workflow_state'):
+            doc.workflow_state = 'Journals Created'
         doc.save()
         frappe.db.commit()
 

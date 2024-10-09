@@ -13,6 +13,7 @@
   "column_break_ikox",
   "company",
   "paying_account",
+  "cost_center",
   "expenses_section",
   "expense"
  ],
@@ -70,17 +71,24 @@
   },
   {
    "allow_on_submit": 1,
-   "depends_on": "eval: doc.workflow_state == 'Approved'",
+   "depends_on": "eval: doc.docstatus === '1'",
    "fieldname": "paying_account",
    "fieldtype": "Link",
    "label": "Paying Account",
    "options": "Account"
+  },
+  {
+   "depends_on": "eval: doc.docstatus === '1'",
+   "fieldname": "cost_center",
+   "fieldtype": "Link",
+   "label": "Cost Center",
+   "options": "Cost Center"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-30 15:40:35.523224",
+ "modified": "2024-10-09 16:27:25.822215",
  "modified_by": "Administrator",
  "module": "Erpnext Expenses",
  "name": "Expense Report",
