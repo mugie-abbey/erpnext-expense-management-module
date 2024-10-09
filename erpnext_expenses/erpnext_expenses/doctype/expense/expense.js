@@ -4,7 +4,7 @@
 frappe.ui.form.on("Expense", {
 	refresh: function(frm) {
         // Check if the workflow state is "pending_finance_approval"
-        if (frm.doc.workflow_state === 'pending_finance_approval') {
+        if (frm.doc.workflow_state === 'pending_finance_approval' || frm.doc.docstatus === 1) {
             // Show the paying_account field
             frm.toggle_display('paying_account', true);
         } else {
@@ -13,7 +13,7 @@ frappe.ui.form.on("Expense", {
         }
 
 
-        if(frm.doc.workflow_state == 'Draft'){
+        if(frm.doc.status === 1){
             frm.add_custom_button(__('Create Report'), function(){
                 frappe.call({
                     method: 'erpnext_expenses.erpnext_expenses.doctype.expense.expense.create_expense_report',
@@ -21,7 +21,7 @@ frappe.ui.form.on("Expense", {
                         'expense': frm.doc.name
                     },
                     callback: function(r) {
-                        if(r.message.response == 'Success'){
+                        if(r.message.response === 'Success'){
 
                             frappe.set_route("Form", "Expense Report", r.message.expense);
 
